@@ -13,12 +13,20 @@ config :phoenix,
 
 if Mix.env() == :dev do
   corex_externals =
-    ~w(accordion angle-slider avatar carousel checkbox clipboard code collapsible combobox color-picker date-picker dialog editable floating-panel listbox marquee menu number-input password-input pin-input radio-group select signature-pad switch tabs timer toast toggle-group tooltip tree-view)
+    ~w(accordion angle-slider avatar carousel checkbox clipboard code collapsible combobox color-picker date-picker dialog editable file-upload floating-panel listbox marquee menu number-input password-input pin-input radio-group select signature-pad switch tabs timer toast toggle-group tooltip tree-view)
     |> Enum.map(fn name -> "--external:corex/#{name}" end)
 
   esbuild = fn args ->
     [
       args: ~w(./hooks/corex --bundle) ++ args,
+      cd: Path.expand("../assets", __DIR__),
+      env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+    ]
+  end
+
+  esbuild_corex_hooks = fn args ->
+    [
+      args: ~w(./hooks/hooks --bundle) ++ args,
       cd: Path.expand("../assets", __DIR__),
       env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
     ]
@@ -39,6 +47,7 @@ if Mix.env() == :dev do
       ./hooks/date-picker.ts
       ./hooks/dialog.ts
       ./hooks/editable.ts
+      ./hooks/file-upload.ts
       ./hooks/floating-panel.ts
       ./hooks/listbox.ts
       ./hooks/marquee.ts
@@ -65,6 +74,8 @@ if Mix.env() == :dev do
 
   config :esbuild,
     version: "0.25.4",
+    corex_hooks:
+      esbuild_corex_hooks.(~w(--format=esm --sourcemap --outfile=../priv/static/hooks.mjs)),
     module:
       esbuild.(~w(--format=esm --sourcemap --outfile=../priv/static/corex.mjs) ++ corex_externals),
     main:

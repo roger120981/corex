@@ -6,7 +6,7 @@ end
 defmodule Corex.New.MixProject do
   use Mix.Project
 
-  @version "0.1.0-beta.1"
+  @version "0.1.0-beta.2"
   @phoenix_version "1.8.4"
   @scm_url "https://github.com/corex-ui/corex"
 
@@ -54,7 +54,7 @@ defmodule Corex.New.MixProject do
   def deps do
     [
       {:jason, "~> 1.0"},
-      {:ex_doc, "~> 0.24", only: :docs}
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false}
     ]
   end
 

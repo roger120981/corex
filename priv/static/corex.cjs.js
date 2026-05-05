@@ -43,8 +43,7 @@ __export(corex_exports, {
   findAccordionContent: () => findAccordionContent,
   findDialogBackdrop: () => findDialogBackdrop,
   findDialogContent: () => findDialogContent,
-  findTreeBranch: () => findTreeBranch,
-  hooks: () => hooks
+  findTreeBranch: () => findTreeBranch
 });
 module.exports = __toCommonJS(corex_exports);
 
@@ -192,7 +191,7 @@ function animateScaleClose(el, opts) {
   ).then(() => void 0);
 }
 
-// hooks/corex.ts
+// hooks/lazy-hook.ts
 function createLazyHook(importFn, exportName) {
   return {
     async mounted() {
@@ -218,6 +217,8 @@ function createLazyHook(importFn, exportName) {
     }
   };
 }
+
+// hooks/corex.ts
 var Hooks = {
   Accordion: createLazyHook(() => import("corex/accordion"), "Accordion"),
   AngleSlider: createLazyHook(() => import("corex/angle-slider"), "AngleSlider"),
@@ -232,6 +233,7 @@ var Hooks = {
   DatePicker: createLazyHook(() => import("corex/date-picker"), "DatePicker"),
   Dialog: createLazyHook(() => import("corex/dialog"), "Dialog"),
   Editable: createLazyHook(() => import("corex/editable"), "Editable"),
+  FileUpload: createLazyHook(() => import("corex/file-upload"), "FileUpload"),
   FloatingPanel: createLazyHook(() => import("corex/floating-panel"), "FloatingPanel"),
   Listbox: createLazyHook(() => import("corex/listbox"), "Listbox"),
   Marquee: createLazyHook(() => import("corex/marquee"), "Marquee"),
@@ -250,10 +252,5 @@ var Hooks = {
   ToggleGroup: createLazyHook(() => import("corex/toggle-group"), "ToggleGroup"),
   TreeView: createLazyHook(() => import("corex/tree-view"), "TreeView")
 };
-function hooks(componentNames) {
-  return Object.fromEntries(
-    componentNames.filter((name) => name in Hooks).map((name) => [name, Hooks[name]])
-  );
-}
 var corex_default = Hooks;
 //# sourceMappingURL=corex.cjs.js.map

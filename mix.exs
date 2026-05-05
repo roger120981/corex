@@ -1,7 +1,7 @@
 defmodule Corex.MixProject do
   use Mix.Project
 
-  @version "0.1.0-beta.1"
+  @version "0.1.0-beta.2"
   @elixir_requirement "~> 1.17"
 
   def project do
@@ -48,9 +48,9 @@ defmodule Corex.MixProject do
       {:jason, "~> 1.0"},
       {:phoenix, "~> 1.8.1"},
       {:phoenix_live_view, "~> 1.1.0"},
-      {:gettext, "~> 1.0", optional: true},
+      {:gettext, "~> 1.0"},
       {:esbuild, "~> 0.8", only: :dev},
-      {:ex_doc, "~> 0.40", only: :docs},
+      {:ex_doc, "~> 0.40", only: [:dev, :docs], runtime: false},
       {:makeup, "~> 1.2", only: [:dev, :test, :docs], optional: true, override: true},
       {:makeup_elixir, "~> 1.0.1 or ~> 1.1", only: [:dev, :test, :docs], optional: true},
       {:makeup_eex, "~> 2.0", only: [:dev, :test, :docs], optional: true},
@@ -70,6 +70,7 @@ defmodule Corex.MixProject do
       "assets.build": [
         &copy_design_to_installer/1,
         "esbuild module",
+        "esbuild corex_hooks",
         &clean_priv_static_chunks/1,
         "esbuild hooks",
         "esbuild cdn",
@@ -143,6 +144,7 @@ defmodule Corex.MixProject do
       extras: [
         "guides/installation.md",
         "guides/manual_installation.md",
+        "guides/tableau.md",
         "guides/dark_mode.md",
         "guides/theming.md",
         "guides/localize.md",
@@ -163,6 +165,7 @@ defmodule Corex.MixProject do
           "guides/manual_installation.md"
         ],
         Guides: [
+          "guides/tableau.md",
           "guides/MCP.md",
           "guides/dark_mode.md",
           "guides/theming.md",
@@ -192,6 +195,8 @@ defmodule Corex.MixProject do
         Corex.DatePicker,
         Corex.Dialog,
         Corex.Editable,
+        Corex.FileUpload,
+        Corex.FileUploadLive,
         Corex.FloatingPanel,
         Corex.Heroicon,
         Corex.HiddenInput,
@@ -254,6 +259,7 @@ defmodule Corex.MixProject do
         Corex.DatePicker.Translation,
         Corex.Dialog.Translation,
         Corex.Editable.Translation,
+        Corex.FileUpload.Translation,
         Corex.FloatingPanel.Translation,
         Corex.NumberInput.Translation,
         Corex.PasswordInput.Translation,
